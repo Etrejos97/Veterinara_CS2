@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User extends Person{
     private long userId;
-    private String user;
+    private String userName;
     private String password;
     private String role;
 }
