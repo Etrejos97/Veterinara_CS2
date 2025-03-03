@@ -16,7 +16,7 @@ public class adminServices {
             throw new Exception("Ya existe una persona con ese documento");
         }
         if (userPort.existUserName(user.getUserName())) {
-            throw new Exception("Ya existe ese username registrado");
+            throw new Exception("Ya existe ese usario registrado");
         }
         personPort.savePerson(user);
         userPort.saveUser(user);
@@ -26,7 +26,7 @@ public class adminServices {
         // Verificar si el usuario existe
         // Eliminar el usuario
         if (!userPort.existUserName(userName)) {
-            throw new Exception("No existe un usuario con ese username");
+            throw new Exception("No existe un usuario con ese usuario");
         }
         userPort.deleteUser(userName);
         
