@@ -1,5 +1,9 @@
 package com.cs2.veterinaria.app.adapters.users;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.cs2.veterinaria.app.adapters.persons.entity.PersonEntity;
 import com.cs2.veterinaria.app.adapters.users.entity.UserEntity;
 import com.cs2.veterinaria.app.adapters.users.repository.UserRepository;
@@ -7,7 +11,17 @@ import com.cs2.veterinaria.app.domains.model.Person;
 import com.cs2.veterinaria.app.domains.model.User;
 import com.cs2.veterinaria.app.ports.UserPort;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@Service
 public class UserAdapter implements UserPort{
+
+	@Autowired
     private UserRepository userRepository;
     @Override
     public void deleteUser(String userName) {

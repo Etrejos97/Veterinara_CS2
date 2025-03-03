@@ -1,11 +1,24 @@
 package com.cs2.veterinaria.app.domains.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.cs2.veterinaria.app.domains.model.User;
 import com.cs2.veterinaria.app.ports.PersonPort;
 import com.cs2.veterinaria.app.ports.UserPort;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@Service
 public class adminServices {
+    @Autowired
     private PersonPort personPort;
+    @Autowired
     private UserPort userPort;
 
     public void registerUser(User user) throws Exception {
