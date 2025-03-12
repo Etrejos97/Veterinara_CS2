@@ -24,8 +24,7 @@ public class AppApplication implements CommandLineRunner{
     	adminInput.menu();
     }
 
-	public static void main(String[] args) {
-		SpringApplication.run(AppApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(AppApplication.class, args);
+    }
 }

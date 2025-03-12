@@ -24,13 +24,13 @@ public class UserAdapter implements UserPort{
 	@Autowired
     private UserRepository userRepository;
     @Override
-    public void deleteUser(String userName) {
+    public void deleteUser(long userId) {
         
     }
 
     @Override
-    public boolean existUserName(String userName) {
-        return userRepository.existsByUserName(userName);
+    public boolean existUserId(long userId) {
+        return userRepository.existsByUserId(userId);
     }
 
     @Override

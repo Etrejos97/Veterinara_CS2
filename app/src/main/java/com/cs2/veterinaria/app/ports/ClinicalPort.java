@@ -1,0 +1,14 @@
+package com.cs2.veterinaria.app.ports;
+
+import com.cs2.veterinaria.app.domains.model.HistoryClinic;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ClinicalPort {
+    boolean existHistoryId(long idHistory);
+    void saveHistory(HistoryClinic history);
+    HistoryClinic createHistory(HistoryClinic history);
+    List<HistoryClinic> findClinicalHistoryByPetId(long idPet);
+}
+

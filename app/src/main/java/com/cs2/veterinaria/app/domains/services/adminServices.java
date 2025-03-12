@@ -28,20 +28,20 @@ public class adminServices {
         if (personPort.existPerson(user.getDocument())) {
             throw new Exception("Ya existe una persona con ese documento");
         }
-        if (userPort.existUserName(user.getUserName())) {
+        if (userPort.existUserId(user.getUserId())) {
             throw new Exception("Ya existe ese usario registrado");
         }
         personPort.savePerson(user);
         userPort.saveUser(user);
     }
 
-    public void deleteUser(String userName) throws Exception {
+    public void deleteUser(Long userId) throws Exception {
         // Verificar si el usuario existe
         // Eliminar el usuario
-        if (!userPort.existUserName(userName)) {
+        if (!userPort.existUserId(userId)) {
             throw new Exception("No existe un usuario con ese usuario");
         }
-        userPort.deleteUser(userName);
+        userPort.deleteUser(userId);
         
     }
 }

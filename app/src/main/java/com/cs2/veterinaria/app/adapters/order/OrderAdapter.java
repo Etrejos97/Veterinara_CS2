@@ -1,5 +1,7 @@
 package com.cs2.veterinaria.app.adapters.order;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,13 @@ import com.cs2.veterinaria.app.adapters.order.repository.OrderRepository;
 import com.cs2.veterinaria.app.domains.model.Order;
 import com.cs2.veterinaria.app.ports.OrderPort;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
 @Service
 public class OrderAdapter implements OrderPort {
     @Autowired
@@ -41,4 +50,23 @@ public class OrderAdapter implements OrderPort {
         order.setDrugName(orderEntity.getDrugName());
         return order;
     }
+
+    @Override
+    public List<Order> getAllOrders() {
+
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Order> findAllOrders() {
+
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void cancelOrder(int idOrder) {
+
+        throw new UnsupportedOperationException();
+    }
+    
 }

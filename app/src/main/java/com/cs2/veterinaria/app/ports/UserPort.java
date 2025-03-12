@@ -4,8 +4,8 @@ import com.cs2.veterinaria.app.domains.model.Person;
 import com.cs2.veterinaria.app.domains.model.User;
 
 public interface UserPort {
-    boolean existUserName(String userName);
+    boolean existUserId(long userId);
     void saveUser(User user);
-    void deleteUser(String userName);
+    void deleteUser(long id);
     User findByUserName(Person person);
 }
