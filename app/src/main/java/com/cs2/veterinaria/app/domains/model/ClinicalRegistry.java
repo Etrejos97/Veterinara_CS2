@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class ClinicalRegistry {
+    private Long idRegistry;
     private String dateRegistrer;
     private String veterinarian;
     private String reasonConsultation;

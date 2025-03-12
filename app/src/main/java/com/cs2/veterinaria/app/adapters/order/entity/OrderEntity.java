@@ -13,7 +13,7 @@ import lombok.Setter;
 import com.cs2.veterinaria.app.domains.model.Order;
 
 @Entity
-@Table(name = "person")
+@Table(name = "order")
 @Setter
 @Getter
 @NoArgsConstructor
