@@ -27,13 +27,13 @@ public class HistoryClinicAdapter implements HistoryClinicPort {
 
     @Override
     public void saveHistory(HistoryClinic history) {
-        HistoryClinicEntity historyEntity = new HistoryClinicEntity(history);
+        HistoryClinicEntity historyEntity = new HistoryClinicEntity();
         historyRepository.save(historyEntity);
         history.setIdHistory(historyEntity.getIdHistory());
     }
 
     public HistoryClinic createHistory(HistoryClinic history) {
-        HistoryClinicEntity historyEntity = new HistoryClinicEntity(history);
+        HistoryClinicEntity historyEntity = new HistoryClinicEntity();
         historyRepository.save(historyEntity);
         return adapterHistory(historyEntity);
     }
@@ -42,7 +42,7 @@ public class HistoryClinicAdapter implements HistoryClinicPort {
         HistoryClinic history = new HistoryClinic();
         history.setIdHistory(historyEntity.getIdHistory());
         history.setIdPet(historyEntity.getIdPet());
-        history.setRecord(historyEntity.getRecord());
+        history.setDetails(historyEntity.getDetails());
         return history;
     }
 }
