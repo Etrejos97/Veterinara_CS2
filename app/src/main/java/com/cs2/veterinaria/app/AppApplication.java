@@ -8,9 +8,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.cs2.veterinaria.app.adapters.inputs.AdminInput;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @SpringBootApplication
 public class AppApplication implements CommandLineRunner{
-	@Autowired
+	
+    @Autowired
     private ListableBeanFactory beanFactory;
     
     @Autowired

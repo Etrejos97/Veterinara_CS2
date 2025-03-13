@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Pet {
     private long idPet;
     private String name;
-    private String idOwner;
+    private Long idOwner;
     private int age;
     private String species;
     private String race;
