@@ -1,13 +1,12 @@
 package com.cs2.veterinaria.app.adapters.users;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cs2.veterinaria.app.adapters.persons.entity.PersonEntity;
 import com.cs2.veterinaria.app.adapters.users.entity.UserEntity;
 import com.cs2.veterinaria.app.adapters.users.repository.UserRepository;
-import com.cs2.veterinaria.app.domains.model.Person;
+import com.cs2.veterinaria.app.adapters.persons.entity.PersonEntity;
+import com.cs2.veterinaria.app.adapters.persons.repository.PersonRepository;
 import com.cs2.veterinaria.app.domains.model.User;
 import com.cs2.veterinaria.app.ports.UserPort;
 
@@ -15,18 +14,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @Service
-public class UserAdapter implements UserPort{
-
-	@Autowired
+public class UserAdapter implements UserPort {
+    @Autowired
     private UserRepository userRepository;
-    @Override
-    public void deleteUser(long userId) {
-        
-    }
+
+    @Autowired
+    private PersonRepository personRepository;
 
     @Override
     public boolean existUserId(long userId) {
@@ -34,55 +34,40 @@ public class UserAdapter implements UserPort{
     }
 
     @Override
-    public User findByUserName(Person person) {
-        PersonEntity personEntity = personEntityAdapter(person);
-        UserEntity userEntity = userRepository.findByPerson(personEntity);
-		User user = userAdapter(userEntity);
-        return user;
+    public void saveUser(User user) {
+        PersonEntity personEntity = personRepository.findByDocument(user.getDocument());
+        UserEntity userEntity = new UserEntity(user, personEntity);
+        userRepository.save(userEntity);
+        user.setUserId(userEntity.getUserId());
     }
 
     @Override
-    public void saveUser(User user) {
-        UserEntity userEntity = userEntityAdapter(user);
-		userRepository.save(userEntity);
-		user.setUserId(userEntity.getUserId());
-        
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
     }
 
-    private User userAdapter(UserEntity userEntity) {
-		if (userEntity == null) {
-			return null;
-		}
-		User user = new User();
-		user.setPersonId(userEntity.getPerson().getPersonId());
-		user.setDocument(userEntity.getPerson().getDocument());
-		user.setName(userEntity.getPerson().getName());
-		user.setAge(userEntity.getPerson().getAge());
-		user.setUserName(userEntity.getUserName());
-		user.setPassword(userEntity.getPassword());
-		user.setRole(userEntity.getRole());
-		user.setUserId(userEntity.getUserId());
-		return user;
-		
-	}
+    @Override
+    public User findByUserName(String userName) {
+        UserEntity userEntity = userRepository.findByUserName(userName);
+        return adapterUser(userEntity);
+    }
 
-    private UserEntity userEntityAdapter(User user) {
-		PersonEntity personEntity = personEntityAdapter(user);
-		UserEntity userEntity = new UserEntity();
-		userEntity.setPerson(personEntity);
-		userEntity.setUserName(user.getUserName());
-		userEntity.setPassword(user.getPassword());
-		userEntity.setRole(user.getRole());
-		return userEntity;
-	}
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll().stream()
+                .map(this::adapterUser)
+                .collect(Collectors.toList());
+    }
 
-    private PersonEntity personEntityAdapter(Person person) {
-		PersonEntity personEntity = new PersonEntity();
-		personEntity.setPersonId(person.getPersonId());
-		personEntity.setDocument(person.getDocument());
-		personEntity.setName(person.getName());
-		personEntity.setAge(person.getAge());
-		return personEntity;
-	}
-
+    private User adapterUser(UserEntity userEntity) {
+        User user = new User();
+        user.setUserId(userEntity.getUserId());
+        user.setUserName(userEntity.getUserName());
+        user.setPassword(userEntity.getPassword());
+        user.setRole(userEntity.getRole());
+        user.setDocument(userEntity.getPerson().getDocument());
+        user.setName(userEntity.getPerson().getName());
+        user.setAge(userEntity.getPerson().getAge());
+        return user;
+    }
 }

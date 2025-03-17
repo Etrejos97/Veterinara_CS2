@@ -10,8 +10,6 @@ import com.cs2.veterinaria.app.adapters.historyClinic.entity.HistoryClinicEntity
 import com.cs2.veterinaria.app.adapters.historyClinic.repository.HistoryClinicRepository;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
 import com.cs2.veterinaria.app.ports.ClinicalPort;
-import com.cs2.veterinaria.app.ports.HistoryClinicPort;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +24,7 @@ public class HistoryClinicAdapter implements ClinicalPort {
 
     @Override
     public boolean existHistoryId(long idHistory) {
-        return historyRepository.existsById(idHistory); // Llamada correcta al método no estático
+        return historyRepository.existsById(idHistory); 
     }
 
     @Override
