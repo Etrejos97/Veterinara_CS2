@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-03-2025 a las 20:48:15
+-- Tiempo de generación: 18-03-2025 a las 17:18:04
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -24,6 +24,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `bill`
+--
+
+CREATE TABLE `bill` (
+  `id_bill` bigint(20) NOT NULL,
+  `id_order` bigint(20) NOT NULL,
+  `id_pet` bigint(20) NOT NULL,
+  `id_owner` bigint(20) NOT NULL,
+  `date_created` text NOT NULL,
+  `price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `history_clinical`
 --
 
@@ -40,7 +55,7 @@ CREATE TABLE `history_clinical` (
 --
 
 CREATE TABLE `order` (
-  `id_order` int(11) NOT NULL,
+  `id_order` bigint(11) NOT NULL,
   `id_pet` bigint(20) NOT NULL,
   `id_owner` bigint(20) NOT NULL,
   `id_veterinarian` bigint(20) NOT NULL,
@@ -120,6 +135,12 @@ CREATE TABLE `user` (
 --
 
 --
+-- Indices de la tabla `bill`
+--
+ALTER TABLE `bill`
+  ADD PRIMARY KEY (`id_bill`);
+
+--
 -- Indices de la tabla `history_clinical`
 --
 ALTER TABLE `history_clinical`
@@ -167,6 +188,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `bill`
+--
+ALTER TABLE `bill`
+  MODIFY `id_bill` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `history_clinical`
 --
 ALTER TABLE `history_clinical`
@@ -176,7 +203,7 @@ ALTER TABLE `history_clinical`
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `person`

@@ -23,8 +23,8 @@ public class OrderAdapter implements OrderPort {
     private OrderRepository orderRepository;
 
     @Override
-    public boolean existOrder(int idOrder) {
-        return orderRepository.existsById(idOrder);
+    public boolean existOrder(long idOrder) {
+        return orderRepository.existsByIdOrder(idOrder);
     }
 
     @Override
@@ -64,9 +64,25 @@ public class OrderAdapter implements OrderPort {
     }
 
     @Override
-    public void cancelOrder(int idOrder) {
+    public void cancelOrder(long idOrder) {
 
         throw new UnsupportedOperationException();
     }
     
+    @Override
+    public Order findById(long orderId) {
+        OrderEntity orderEntity = orderRepository.findByIdOrder(orderId);
+        return convertToDomain(orderEntity);
+    }
+
+    private Order convertToDomain(OrderEntity orderEntity) {
+        Order order = new Order();
+        order.setIdOrder(orderEntity.getIdOrder());
+        order.setIdPet(orderEntity.getIdPet());
+        order.setIdOwner(orderEntity.getIdOwner());
+        order.setIdVerterinarian(orderEntity.getIdVeterinarian());
+        order.setDateOrder(orderEntity.getDateOrder());
+        order.setDrugName(orderEntity.getDrugName());
+        return order;
+    }
 }

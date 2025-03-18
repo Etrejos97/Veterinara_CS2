@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
 import com.cs2.veterinaria.app.domains.model.Order;
-import com.cs2.veterinaria.app.domains.model.User;
 import com.cs2.veterinaria.app.ports.ClinicalPort;
 import com.cs2.veterinaria.app.ports.OrderPort;
 import com.cs2.veterinaria.app.ports.UserPort;
@@ -39,11 +38,17 @@ public class veterinarianService {
     }
 
     // Método para cancelar una orden de medicamento
-    public void cancelOrder(int idOrder) throws Exception {
+    public void cancelOrder(int idOrder, long idPet, String reason) throws Exception {
         if (!orderPort.existOrder(idOrder)) {
             throw new Exception("No existe una orden con el ID especificado");
         }
         orderPort.cancelOrder(idOrder);
+
+        // Registrar la anulación en la historia clínica
+        HistoryClinic history = new HistoryClinic();
+        history.setIdPet(idPet);
+        history.setDetails("Orden médica anulada. Razón: " + reason);
+        clinicalPort.saveHistory(history);
     }
 
     // Método para consultar la historia clínica de una mascota
@@ -54,13 +59,5 @@ public class veterinarianService {
     // Método para consultar todas las órdenes de medicamentos
     public List<Order> getAllOrders() {
         return orderPort.findAllOrders();
-    }
-
-    // Métodos para interactuar con el repositorio de usuarios
-    public void saveUser(User user) {
-        userPort.saveUser(user);
-    }
-    public void deleteUserById(Long id) {
-        userPort.deleteUser(id);
     }
 }

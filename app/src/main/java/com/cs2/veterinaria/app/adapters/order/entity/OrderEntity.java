@@ -21,7 +21,7 @@ public class OrderEntity {
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_order")
-    private int idOrder;
+    private long idOrder;
     @Column(name = "id_pet")
     private long idPet;
     @Column(name = "id_owner")
