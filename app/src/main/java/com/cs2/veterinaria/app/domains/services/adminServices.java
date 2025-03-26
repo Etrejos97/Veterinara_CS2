@@ -31,6 +31,7 @@ public class adminServices {
     @Autowired
     private PetOwnerPort petOwnerPort;
 
+    
     public void registerUser(User user) throws Exception {
         if (personPort.existPerson(user.getDocument())) {
             throw new Exception("Ya existe una persona con ese documento");
@@ -44,7 +45,7 @@ public class adminServices {
 
     public void deleteUser(Long userId) throws Exception {
         if (!userPort.existUserId(userId)) {
-            throw new Exception("No existe un usuario con ese usuario");
+            throw new Exception("No existe un usuario con ese ID");
         }
         userPort.deleteUser(userId);
     }

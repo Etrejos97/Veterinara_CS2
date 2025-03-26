@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Service
-public class sellerServices {
+public class SellerServices {
     @Autowired
     private OrderPort orderPort;
     @Autowired

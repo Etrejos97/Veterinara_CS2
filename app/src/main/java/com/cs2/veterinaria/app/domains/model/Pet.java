@@ -3,10 +3,12 @@ package com.cs2.veterinaria.app.domains.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
 @NoArgsConstructor
+
 public class Pet {
     private long idPet;
     private String name;

@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Service
-public class veterinarianService {
+public class VeterinarianService {
 
     @Autowired
     private ClinicalPort clinicalPort;
