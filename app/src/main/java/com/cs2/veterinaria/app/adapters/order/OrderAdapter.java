@@ -29,13 +29,13 @@ public class OrderAdapter implements OrderPort {
 
     @Override
     public void saveOrder(Order order) {
-        OrderEntity orderEntity = new OrderEntity(order);
+        OrderEntity orderEntity = new OrderEntity();
         orderRepository.save(orderEntity);
         order.setIdOrder(orderEntity.getIdOrder());
     }
 
     public Order createOrder(Order order) {
-        OrderEntity orderEntity = new OrderEntity(order);
+        OrderEntity orderEntity = new OrderEntity();
         orderRepository.save(orderEntity);
         return adapterOrder(orderEntity);
     }
@@ -43,9 +43,9 @@ public class OrderAdapter implements OrderPort {
     private Order adapterOrder(OrderEntity orderEntity) {
         Order order = new Order();
         order.setIdOrder(orderEntity.getIdOrder());
-        order.setIdVerterinarian(orderEntity.getIdVeterinarian());
-        order.setIdPet(orderEntity.getIdPet());
-        order.setIdOwner(orderEntity.getIdOwner());
+        order.setUserId(orderEntity.getUser().getUserId());
+        order.setIdPet(orderEntity.getPet().getIdPet());
+        order.setIdOwner(orderEntity.getOwner().getIdOwner());
         order.setDateOrder(orderEntity.getDateOrder());
         order.setDrugName(orderEntity.getDrugName());
         return order;
@@ -78,9 +78,9 @@ public class OrderAdapter implements OrderPort {
     private Order convertToDomain(OrderEntity orderEntity) {
         Order order = new Order();
         order.setIdOrder(orderEntity.getIdOrder());
-        order.setIdPet(orderEntity.getIdPet());
-        order.setIdOwner(orderEntity.getIdOwner());
-        order.setIdVerterinarian(orderEntity.getIdVeterinarian());
+        order.setIdPet(orderEntity.getPet().getIdPet());
+        order.setIdOwner(orderEntity.getOwner().getIdOwner());
+        order.setUserId(orderEntity.getUser().getUserId());
         order.setDateOrder(orderEntity.getDateOrder());
         order.setDrugName(orderEntity.getDrugName());
         return order;

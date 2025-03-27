@@ -12,7 +12,6 @@ import com.cs2.veterinaria.app.domains.services.LoginService;
 import com.cs2.veterinaria.app.ports.InputPort;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.cs2.veterinaria.app.adapters.inputs.utils.PersonValidator;

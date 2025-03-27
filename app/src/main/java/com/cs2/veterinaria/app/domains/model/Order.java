@@ -11,7 +11,7 @@ public class Order {
     private long idOrder;
     private long idPet;
     private long idOwner;
-    private long idVerterinarian;
+    private long userId;
     private String dateOrder;
     private String drugName;
 }

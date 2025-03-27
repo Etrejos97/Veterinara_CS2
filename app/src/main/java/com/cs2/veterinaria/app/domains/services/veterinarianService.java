@@ -3,6 +3,7 @@ package com.cs2.veterinaria.app.domains.services;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cs2.veterinaria.app.adapters.pet.entity.PetEntity;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
 import com.cs2.veterinaria.app.domains.model.Order;
 import com.cs2.veterinaria.app.ports.ClinicalPort;
@@ -53,8 +54,10 @@ public class VeterinarianService {
 
     // Método para consultar la historia clínica de una mascota
     public List<HistoryClinic> getClinicalHistory(long idPet) {
-        return clinicalPort.findClinicalHistoryByPetId(idPet);
-    }
+        PetEntity petEntity = new PetEntity();
+        petEntity.setIdPet(idPet); 
+        return clinicalPort.findClinicalHistoryByPetId(petEntity);
+}
 
     // Método para consultar todas las órdenes de medicamentos
     public List<Order> getAllOrders() {

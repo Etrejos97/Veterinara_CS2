@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-03-2025 a las 23:20:39
+-- Tiempo de generación: 27-03-2025 a las 20:34:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -24,12 +24,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `bill`
+--
+
+CREATE TABLE `bill` (
+  `id_bill` bigint(20) NOT NULL,
+  `id_order` bigint(20) NOT NULL,
+  `id_pet` bigint(20) NOT NULL,
+  `id_owner` bigint(20) NOT NULL,
+  `date_created` text NOT NULL,
+  `price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `history_clinical`
 --
 
 CREATE TABLE `history_clinical` (
   `id_history` bigint(20) NOT NULL,
-  `id_pet` bigint(20) NOT NULL
+  `id_pet` bigint(20) NOT NULL,
+  `details` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -39,10 +55,10 @@ CREATE TABLE `history_clinical` (
 --
 
 CREATE TABLE `order` (
-  `id_order` int(11) NOT NULL,
+  `id_order` bigint(11) NOT NULL,
   `id_pet` bigint(20) NOT NULL,
   `id_owner` bigint(20) NOT NULL,
-  `id_veterinarian` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `date_order` text NOT NULL,
   `drug_name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -65,7 +81,35 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`person_id`, `document`, `name`, `age`) VALUES
-(1, 123, 'admin', 123);
+(1, 123, 'pedro', 25);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pet`
+--
+
+CREATE TABLE `pet` (
+  `id_pet` bigint(20) NOT NULL,
+  `name` text NOT NULL,
+  `id_owner` bigint(20) NOT NULL,
+  `age` int(11) NOT NULL,
+  `species` text NOT NULL,
+  `race` text NOT NULL,
+  `characteristics` text NOT NULL,
+  `weight` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pet_owner`
+--
+
+CREATE TABLE `pet_owner` (
+  `id_owner` bigint(20) NOT NULL,
+  `person_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -105,6 +149,18 @@ INSERT INTO `user` (`user_id`, `person_id`, `user_name`, `password`, `role`) VAL
 --
 
 --
+-- Indices de la tabla `bill`
+--
+ALTER TABLE `bill`
+  ADD PRIMARY KEY (`id_bill`);
+
+--
+-- Indices de la tabla `history_clinical`
+--
+ALTER TABLE `history_clinical`
+  ADD PRIMARY KEY (`id_history`);
+
+--
 -- Indices de la tabla `order`
 --
 ALTER TABLE `order`
@@ -115,6 +171,18 @@ ALTER TABLE `order`
 --
 ALTER TABLE `person`
   ADD PRIMARY KEY (`person_id`);
+
+--
+-- Indices de la tabla `pet`
+--
+ALTER TABLE `pet`
+  ADD PRIMARY KEY (`id_pet`);
+
+--
+-- Indices de la tabla `pet_owner`
+--
+ALTER TABLE `pet_owner`
+  ADD PRIMARY KEY (`id_owner`);
 
 --
 -- Indices de la tabla `product`
@@ -134,16 +202,40 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `bill`
+--
+ALTER TABLE `bill`
+  MODIFY `id_bill` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `history_clinical`
+--
+ALTER TABLE `history_clinical`
+  MODIFY `id_history` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order` bigint(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `person`
 --
 ALTER TABLE `person`
   MODIFY `person_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `pet`
+--
+ALTER TABLE `pet`
+  MODIFY `id_pet` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pet_owner`
+--
+ALTER TABLE `pet_owner`
+  MODIFY `id_owner` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `product`

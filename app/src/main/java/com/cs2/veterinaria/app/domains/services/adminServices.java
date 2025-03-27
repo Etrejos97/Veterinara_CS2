@@ -88,8 +88,8 @@ public class adminServices {
     }
 
     // Contar el número de mascotas de un dueño de mascota.
-    public long countPetsByOwnerId(long ownerId) {
-        return petPort.countByOwnerId(ownerId);
+    public long countPetsByOwnerId(Person owner) {
+        return petPort.countByOwnerId(owner);
     }
 
    

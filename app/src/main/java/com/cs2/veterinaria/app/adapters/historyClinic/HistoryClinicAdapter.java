@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cs2.veterinaria.app.adapters.historyClinic.entity.HistoryClinicEntity;
 import com.cs2.veterinaria.app.adapters.historyClinic.repository.HistoryClinicRepository;
+import com.cs2.veterinaria.app.adapters.pet.entity.PetEntity;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
 import com.cs2.veterinaria.app.ports.ClinicalPort;
 import lombok.Getter;
@@ -43,14 +44,14 @@ public class HistoryClinicAdapter implements ClinicalPort {
     private HistoryClinic adapterHistory(HistoryClinicEntity historyEntity) {
         HistoryClinic history = new HistoryClinic();
         history.setIdHistory(historyEntity.getIdHistory());
-        history.setIdPet(historyEntity.getIdPet());
+        history.setIdPet(historyEntity.getPet().getIdPet());
         history.setDetails(historyEntity.getDetails());
         return history;
     }
 
     @Override
-    public List<HistoryClinic> findClinicalHistoryByPetId(long idPet) {
-        List<HistoryClinicEntity> historyEntities = historyRepository.findByIdPet(idPet);
+    public List<HistoryClinic> findClinicalHistoryByPetId(PetEntity petEntity) {
+        List<HistoryClinicEntity> historyEntities = historyRepository.findByPet(petEntity);
         return historyEntities.stream()
                 .map(this::adapterHistory)
                 .collect(Collectors.toList());

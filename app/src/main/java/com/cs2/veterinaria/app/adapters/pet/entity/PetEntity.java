@@ -1,5 +1,6 @@
 package com.cs2.veterinaria.app.adapters.pet.entity;
 
+import com.cs2.veterinaria.app.adapters.petOwner.entity.PetOwnerEntity;
 import com.cs2.veterinaria.app.domains.model.Pet;
 
 import jakarta.persistence.Column;
@@ -7,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,8 +27,11 @@ public class PetEntity {
     private Long idPet;
     @Column(name = "name")
     private String name;
-    @Column(name = "id_owner")
-    private Long idOwner;
+
+    @JoinColumn(name = "id_owner")
+    @OneToOne
+    private PetOwnerEntity owner;
+
     @Column(name = "age")
     private int age;
     @Column(name = "species")
@@ -37,10 +43,10 @@ public class PetEntity {
     @Column(name = "weight")
     private float weight;
 
-    public PetEntity(Pet pet) {
+    public PetEntity(Pet pet, PetOwnerEntity petOwnerEntity) {
         this.idPet = pet.getIdPet();
         this.name = pet.getName();
-        this.idOwner = pet.getIdOwner();
+        this.owner = petOwnerEntity;
         this.age = pet.getAge();
         this.species = pet.getSpecies();
         this.race = pet.getRace();
