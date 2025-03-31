@@ -12,6 +12,7 @@ import lombok.Setter;
 import com.cs2.veterinaria.app.domains.model.Order;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class VeterinarianInput implements InputPort{
 
     @Autowired
     private VeterinarianService veterinarianService;
+    @Autowired
+    @Lazy
+    private LoginInput loginInput;
 
     private final String MENU = "Ingrese la opción:"
         + " \n 1. Registrar una nueva orden"
@@ -32,7 +36,7 @@ public class VeterinarianInput implements InputPort{
         + " \n 5. Guardar un usuario"
         + " \n 6. Eliminar un usuario";
 
-        public void menu() {
+        public void menu() throws Exception {
             System.out.println(MENU);
             String option = Utils.getReader().nextLine();
             switch (option) {
@@ -66,6 +70,11 @@ public class VeterinarianInput implements InputPort{
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                     }
+                    break;
+                }
+                case "5": {
+                    System.out.println("Hasta una proxima ocación");
+                    loginInput.menu();
                     break;
                 }
                 default: {

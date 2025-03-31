@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserValidator extends SimpleValidator{
 
-    public static String userNameValidator(String value) throws Exception {
+    public String userNameValidator(String value) throws Exception {
         return stringValidator(value, "nombre de usuario");
     }
 

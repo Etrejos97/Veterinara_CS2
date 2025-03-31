@@ -2,15 +2,17 @@ package com.cs2.veterinaria.app.adapters.inputs;
 
 import com.cs2.veterinaria.app.domains.model.Person;
 import com.cs2.veterinaria.app.domains.model.User;
-import com.cs2.veterinaria.app.domains.services.adminServices;
+import com.cs2.veterinaria.app.domains.services.AdminServices;
 import com.cs2.veterinaria.app.ports.InputPort;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 
 import com.cs2.veterinaria.app.adapters.inputs.utils.PersonValidator;
+import com.cs2.veterinaria.app.adapters.inputs.utils.UserValidator;
 import com.cs2.veterinaria.app.adapters.inputs.utils.Utils;
 
 import lombok.Getter;
@@ -25,21 +27,28 @@ public class AdminInput implements InputPort {
     @Autowired
     private PersonValidator personValidator;
     @Autowired
-    private adminServices adminService;
+    private AdminServices adminService;
+    @Autowired
+    private UserValidator userValidator;
+    @Autowired
+    @Lazy
+    private LoginInput loginInput;
 
     private final String MENU = "Ingrese la opcion:"
             + " \n 1. para crear Usuario."
             + " \n 2. eliminar usuario" 
             + " \n 3. Actualizar datos de usuario"
-            + " \n 4. .Registrar Dueño de mascota"
-            + " \n 5. .Actualizar mascota de dueño"
-            + " \n 6. .Listar usuarios"
-            + " \n 6. .Listar dueños"
-            + " \n 7. .";
+            + " \n 4. Registrar Dueño de mascota"
+            + " \n 5. Actualizar mascota de dueño"
+            + " \n 6. Listar usuarios"
+            + " \n 7. Listar dueños"
+            + " \n 8. Salir";
 
-    public void menu() {
+    public void menu() throws Exception {
+        String option ="0";
+        do{
         System.out.println(MENU);
-        String option = Utils.getReader().nextLine();
+        option = Utils.getReader().nextLine();
         switch (option) {
             case "1": {
                 try {
@@ -61,7 +70,7 @@ public class AdminInput implements InputPort {
                 try {
                     updateUser();
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                 }
                 break;
             }
@@ -97,31 +106,17 @@ public class AdminInput implements InputPort {
                 }
                 break;
             }
+            case "8": {
+                System.out.println("Hasta una proxima ocación");
+                loginInput.menu();
+    break;
+            }
             default: {
                 System.out.println("Opción no válida");
+                break;
             }
         }
-    }
-    private void createUser() throws Exception {
-        System.out.println("Ingrese el nombre del usuario:");
-        String name = personValidator.nameValidator(Utils.getReader().nextLine());
-    
-        System.out.println("Ingrese el documento del usuario:");
-        long document = personValidator.documentValidator(Utils.getReader().nextLine());
-    
-        System.out.println("Ingrese la contraseña del usuario");
-        String password = Utils.getReader().nextLine();
-
-        System.out.println("Ingrese el rol del usuario");
-        String role = Utils.getReader().nextLine();
-
-        User user = new User();
-        user.setDocument(document);
-
-        user.setName(name);
-        user.setRole(role);
-        user.setPassword(password);
-        adminService.registerUser(user);
+        }while (!option.equals("0"));
     }
 
     private void deleteUser() {
@@ -135,32 +130,67 @@ public class AdminInput implements InputPort {
         }
     }
 
+    private void createUser() throws Exception {
+        System.out.println("Ingrese el nombre del usuario:");
+        String name = personValidator.nameValidator(Utils.getReader().nextLine());
+    
+        System.out.println("Ingrese el documento del usuario:");
+        long document = personValidator.documentValidator(Utils.getReader().nextLine());
+
+        System.out.println("Ingrese la edad:");
+        int age = Integer.parseInt(Utils.getReader().nextLine());
+        
+        System.out.println("Ingrese el UserName:");
+        String userName = userValidator.userNameValidator(Utils.getReader().nextLine());
+    
+        System.out.println("Ingrese la contraseña del usuario");
+        String password = Utils.getReader().nextLine();
+
+        System.out.println("Ingrese el rol del usuario");
+        String role = Utils.getReader().nextLine();
+
+        User user = new User();
+        user.setDocument(document);
+        user.setName(name);
+        user.setAge(age);
+        user.setUserName(userName);
+        user.setRole(role);
+        user.setPassword(password);
+        adminService.registerUser(user);
+    }
     private void updateUser() {
         try {
+            // Solicitar el ID del usuario a actualizar
             System.out.println("Ingrese el ID del usuario a actualizar:");
             Long userId = Long.parseLong(Utils.getReader().nextLine());
     
+            // Solicitar el nuevo nombre del usuario
             System.out.println("Ingrese el nuevo nombre del usuario:");
-            String name = personValidator.nameValidator(Utils.getReader().nextLine());
+            String userName = personValidator.nameValidator(Utils.getReader().nextLine());
     
+            // Solicitar el nuevo rol del usuario
             System.out.println("Ingrese el nuevo rol del usuario:");
             String role = Utils.getReader().nextLine();
     
+            // Solicitar la nueva contraseña del usuario
             System.out.println("Ingrese la nueva contraseña del usuario:");
             String password = Utils.getReader().nextLine();
     
+            // Crear un objeto User con los datos ingresados
             User user = new User();
-            user.setUserId(userId);
-            user.setName(name);
+            user.setUserId(userId); 
+            user.setUserName(userName);
             user.setRole(role);
             user.setPassword(password);
     
+            // Llamar al servicio para actualizar el usuario
             adminService.updateUser(user);
             System.out.println("Usuario actualizado exitosamente.");
         } catch (Exception e) {
             System.out.println("Error al actualizar el usuario: " + e.getMessage());
         }
     }
+
 
     private void registerOwner() {
         try {

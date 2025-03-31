@@ -33,7 +33,9 @@ public class LoginInput implements InputPort{
 	private PersonValidator personValidator;
 	@Autowired
     private LoginService loginService;
-	private final String MENU = "Ingrese la opcion que desea:/n 1. iniciar sesion /n 2. salir";
+	@Autowired
+	private UserValidator userValidator;
+	private final String MENU = "Ingrese la opcion que desea:\n1. iniciar sesion\n2. salir";
 
 	public LoginInput(AdminInput adminInput, VeterinarianInput veterinarianInput, SellerInput sellerInput) {
 		super();
@@ -42,36 +44,39 @@ public class LoginInput implements InputPort{
 		this.sellerInput = sellerInput;
 		this.inputs=new HashMap<String,InputPort>();
 		inputs.put("admin", adminInput);
-		inputs.put("Veterinarian", veterinarianInput);
-		inputs.put("Seller", sellerInput);
+		inputs.put("veterinarian", veterinarianInput);
+		inputs.put("seller", sellerInput);
 
 	}
 
 
 	@Override
 	public void menu() throws Exception {
-		System.out.println(MENU);
-		String option = Utils.getReader().nextLine();
-		switch (option) {
-		case "1": {
-			this.login();
-			return;
-		}
-		case "2": {
-			System.out.println("Hasta una proxima ocación");
-			return;
-		}
-		default: {
-			System.out.println("ha elegido una opción invalida, se detiene la ejecucion");
-			return;
-		}
-		}
+		String option = "0";
+		do{
+			System.out.println(MENU);
+			option = Utils.getReader().nextLine();
+			switch (option) {
+				case "1": {
+					this.login();
+					return;
+				}
+				case "2": {
+					System.out.println("Hasta una proxima ocación");
+					return;
+				}
+				default: {
+					System.out.println("ha elegido una opción invalida, se detiene la ejecucion");
+				}
+			}
+		}while (!option.equals("2"));
+		
 	}
 
 	private void login() {
 		try {
 			System.out.println("ingrese su usuario");
-			String userName = UserValidator.userNameValidator(Utils.getReader().nextLine());
+			String userName = userValidator.userNameValidator(Utils.getReader().nextLine());
 			System.out.println("ingrese su contraseña");
 			String password = UserValidator.passwordValidator(Utils.getReader().nextLine());
 			User user = new User();

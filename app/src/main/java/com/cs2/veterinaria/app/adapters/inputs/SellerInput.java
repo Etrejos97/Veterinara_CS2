@@ -1,24 +1,35 @@
 package com.cs2.veterinaria.app.adapters.inputs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.cs2.veterinaria.app.domains.model.Product;
 import com.cs2.veterinaria.app.domains.services.SellerServices;
 import com.cs2.veterinaria.app.ports.InputPort;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import com.cs2.veterinaria.app.adapters.inputs.utils.Utils;
 
+@Getter
+@Setter
 @Component
 public class SellerInput implements InputPort{
 
     @Autowired
     private SellerServices sellerServices;
+    @Autowired
+    @Lazy
+    private LoginInput loginInput;
 
     private final String MENU = "Ingrese la opción:"
             + " \n 1. Vender un producto"
-            + " \n 2. Vender un medicamento";
+            + " \n 2. Vender un medicamento"
+            + " \n 3. Salir";
 
-    public void menu() {
+    public void menu() throws Exception {
         System.out.println(MENU);
         String option = Utils.getReader().nextLine();
         switch (option) {
@@ -37,6 +48,11 @@ public class SellerInput implements InputPort{
                     System.out.println("Error: " + e.getMessage());
                 }
                 break;
+            }
+            case "3": {
+                System.out.println("Hasta una proxima ocación");
+                loginInput.menu();
+    break;
             }
             default: {
                 System.out.println("Opción no válida");

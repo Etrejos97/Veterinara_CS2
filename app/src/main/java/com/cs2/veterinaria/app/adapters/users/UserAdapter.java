@@ -59,6 +59,20 @@ public class UserAdapter implements UserPort {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public User findUserById(long userId) {
+        // Buscar el usuario en la base de datos
+        UserEntity userEntity = userRepository.findById(userId).orElse(null);
+        
+        // Validar si el usuario existe
+        if (userEntity == null) {
+            return null; // O puedes lanzar una excepción si prefieres manejarlo de esa forma
+        }
+
+        // Adaptar la entidad a un objeto de dominio
+        return adapterUser(userEntity);
+    }   
+
     private User adapterUser(UserEntity userEntity) {
         User user = new User();
         user.setUserId(userEntity.getUserId());
