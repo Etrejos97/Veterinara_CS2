@@ -88,21 +88,9 @@ public class AdminServices {
         return userPort.findAllUsers();
     }
 
+
+
     
-
-    public void registerOwner(Person person) throws Exception {
-        if (personPort.existPerson(person.getDocument())) {
-            throw new Exception("Ya existe una persona con ese documento");
-        }
-        personPort.savePerson(person);
-    }
-
-    public void deleteOwner(Long document) throws Exception {
-        if (!personPort.existPerson(document)) {
-            throw new Exception("No existe una persona con ese documento");
-        }
-        personPort.deletePerson(document);
-    }
 
     public List<Person> listOwners() {
         return personPort.findAllPersons();

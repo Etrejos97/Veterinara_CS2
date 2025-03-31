@@ -1,15 +1,20 @@
 package com.cs2.veterinaria.app.adapters.inputs;
 
+import com.cs2.veterinaria.app.adapters.inputs.utils.PersonValidator;
 import com.cs2.veterinaria.app.adapters.inputs.utils.Utils;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
+import com.cs2.veterinaria.app.domains.services.AdminServices;
 import com.cs2.veterinaria.app.domains.services.VeterinarianService;
 import com.cs2.veterinaria.app.ports.InputPort;
+
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import com.cs2.veterinaria.app.domains.model.Order;
+import com.cs2.veterinaria.app.domains.model.Person;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -23,6 +28,10 @@ import java.util.List;
 public class VeterinarianInput implements InputPort{
 
     @Autowired
+    private PersonValidator personValidator;
+    @Autowired
+    private AdminServices adminService;
+    @Autowired
     private VeterinarianService veterinarianService;
     @Autowired
     @Lazy
@@ -33,8 +42,10 @@ public class VeterinarianInput implements InputPort{
         + " \n 2. Cancelar una orden"
         + " \n 3. Consultar historia clínica"
         + " \n 4. Consultar todas las órdenes"
-        + " \n 5. Guardar un usuario"
-        + " \n 6. Eliminar un usuario";
+        + " \n 5. Registrar Dueño de mascota"
+        + " \n 6. Actualizar dueño de mascota"
+        + " \n 7. Listar dueños"
+        + " \n 8. Salir";
 
         public void menu() throws Exception {
             System.out.println(MENU);
@@ -73,10 +84,35 @@ public class VeterinarianInput implements InputPort{
                     break;
                 }
                 case "5": {
+                    try {
+                        registerOwner();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                }
+                case "6": {
+                    try {
+                        deleteOwner();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                }
+                case "7": {
+                    try {
+                        listOwners();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                }
+                case "8": {
                     System.out.println("Hasta una proxima ocación");
                     loginInput.menu();
                     break;
                 }
+                
                 default: {
                     System.out.println("Opción no válida");
                     break;
@@ -133,6 +169,49 @@ public class VeterinarianInput implements InputPort{
                 System.out.println("Error al consultar las órdenes: " + e.getMessage());
             }
         }
+        private void registerOwner() {
+        try {
+            System.out.println("Ingrese el nombre del dueño:");
+            String name = personValidator.nameValidator(Utils.getReader().nextLine());
+
+            System.out.println("Ingrese el documento del dueño:");
+            Long document = personValidator.documentValidator(Utils.getReader().nextLine());
+
+            Person person = new Person();
+            person.setName(name);
+            person.setDocument(document);
+
+            veterinarianService.registerOwner(person);
+            System.out.println("Dueño registrado exitosamente.");
+            } catch (Exception e) {
+                System.out.println("Error al registrar el dueño: " + e.getMessage());
+                }
+    }
+
+    private void deleteOwner() {
+        try {
+            System.out.println("Ingrese el documento del dueño a eliminar:");
+            Long document = personValidator.documentValidator(Utils.getReader().nextLine());
+            veterinarianService.deleteOwner(document);
+            System.out.println("Dueño eliminado exitosamente.");
+        } catch (Exception e) {
+            System.out.println("Error al eliminar el dueño: " + e.getMessage());
+            }
+    }
+
+    
+
+    private void listOwners() {
+        try {
+            System.out.println("Lista de dueños:");
+            List<Person> owners = adminService.listOwners();
+            for (Person owner : owners) {
+                System.out.println("Documento: " + owner.getDocument() + ", Nombre: " + owner.getName());
+            }
+        } catch (Exception e) {
+            System.out.println("Error al listar los dueños: " + e.getMessage());
+        }
+    }
 
        
 }

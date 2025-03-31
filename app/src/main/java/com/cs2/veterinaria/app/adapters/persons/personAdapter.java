@@ -37,8 +37,8 @@ public class personAdapter implements PersonPort {
     @Override
     public void savePerson(Person person) {
         PersonEntity personEntity = new PersonEntity(person);
-        personRepository.save(personEntity);
-        person.setDocument(personEntity.getDocument());
+        personEntity = personRepository.save(personEntity); // Recuperar el objeto actualizado
+        person.setPersonId(personEntity.getPersonId()); // Asignar el ID generado al objeto Person
     }
 
     @Override
@@ -55,6 +55,7 @@ public class personAdapter implements PersonPort {
 
     private Person adapterPerson(PersonEntity personEntity) {
         Person person = new Person();
+        person.setPersonId(personEntity.getPersonId());
         person.setDocument(personEntity.getDocument());
         person.setName(personEntity.getName());
         person.setAge(personEntity.getAge());

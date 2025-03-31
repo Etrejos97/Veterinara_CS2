@@ -3,8 +3,10 @@ package com.cs2.veterinaria.app.adapters.petOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cs2.veterinaria.app.adapters.persons.entity.PersonEntity;
 import com.cs2.veterinaria.app.adapters.petOwner.entity.PetOwnerEntity;
 import com.cs2.veterinaria.app.adapters.petOwner.repository.PetOwnerRepository;
+import com.cs2.veterinaria.app.domains.model.Person;
 import com.cs2.veterinaria.app.domains.model.PetOwner;
 import com.cs2.veterinaria.app.ports.PetOwnerPort;
 
@@ -35,10 +37,11 @@ public class PetOwnerAdapter implements PetOwnerPort {
     }
 
     @Override
-    public void savePetOwner(PetOwner petOwner) {
+    public void savePetOwner(Person person) {
         PetOwnerEntity petOwnerEntity = new PetOwnerEntity();
+        petOwnerEntity.setPerson(adapterPerson(person));
         petOwnerRepository.save(petOwnerEntity);
-        petOwner.setDocument(petOwnerEntity.getPerson().getDocument());
+        person.setDocument(petOwnerEntity.getPerson().getDocument());
     }
 
     @Override
@@ -61,5 +64,14 @@ public class PetOwnerAdapter implements PetOwnerPort {
         petOwner.setAge(petOwnerEntity.getPerson().getAge());
 
         return petOwner;
+    }
+
+    private PersonEntity adapterPerson(Person person) {
+        PersonEntity personEntity = new PersonEntity();
+        personEntity.setPersonId(person.getPersonId());
+        personEntity.setDocument(person.getDocument());
+        personEntity.setName(person.getName());
+        personEntity.setAge(person.getAge());
+        return personEntity;
     }
 }
