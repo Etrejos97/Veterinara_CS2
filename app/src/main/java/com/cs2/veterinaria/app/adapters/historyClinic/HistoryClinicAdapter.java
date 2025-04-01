@@ -35,9 +35,19 @@ public class HistoryClinicAdapter implements ClinicalPort {
         history.setIdHistory(historyEntity.getIdHistory());
     }
 
+    @Override
     public HistoryClinic createHistory(HistoryClinic history) {
+        // Convertir el modelo a la entidad
         HistoryClinicEntity historyEntity = new HistoryClinicEntity();
+        PetEntity petEntity = new PetEntity();
+        petEntity.setIdPet(history.getIdPet());
+        historyEntity.setPet(petEntity);
+        historyEntity.setDetails(history.getDetails());
+
+        // Guardar en la base de datos
         historyRepository.save(historyEntity);
+
+        // Convertir la entidad de vuelta al modelo
         return adapterHistory(historyEntity);
     }
 

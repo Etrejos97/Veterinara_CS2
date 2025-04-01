@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-03-2025 a las 20:34:03
+-- Tiempo de generación: 01-04-2025 a las 05:10:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -51,10 +51,10 @@ CREATE TABLE `history_clinical` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `order`
+-- Estructura de tabla para la tabla `orders`
 --
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `id_order` bigint(11) NOT NULL,
   `id_pet` bigint(20) NOT NULL,
   `id_owner` bigint(20) NOT NULL,
@@ -62,6 +62,13 @@ CREATE TABLE `order` (
   `date_order` text NOT NULL,
   `drug_name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `orders`
+--
+
+INSERT INTO `orders` (`id_order`, `id_pet`, `id_owner`, `user_id`, `date_order`, `drug_name`) VALUES
+(1, 1, 1, 7, '2025-02-10', 'droga');
 
 -- --------------------------------------------------------
 
@@ -81,7 +88,11 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`person_id`, `document`, `name`, `age`) VALUES
-(1, 123, 'pedro', 25);
+(1, 123, 'pedro', 25),
+(4, 1216724879, 'Edison', 25),
+(17, 789, 'felipe', 0),
+(18, 963, 'juana', 0),
+(19, 741, 'luis', 26);
 
 -- --------------------------------------------------------
 
@@ -100,6 +111,13 @@ CREATE TABLE `pet` (
   `weight` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pet`
+--
+
+INSERT INTO `pet` (`id_pet`, `name`, `id_owner`, `age`, `species`, `race`, `characteristics`, `weight`) VALUES
+(1, 'firulais', 1, 2, 'dalmata', 'perro', 'grande con manchas', 25);
+
 -- --------------------------------------------------------
 
 --
@@ -110,6 +128,13 @@ CREATE TABLE `pet_owner` (
   `id_owner` bigint(20) NOT NULL,
   `person_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pet_owner`
+--
+
+INSERT INTO `pet_owner` (`id_owner`, `person_id`) VALUES
+(1, 18);
 
 -- --------------------------------------------------------
 
@@ -122,6 +147,14 @@ CREATE TABLE `product` (
   `product_name` text NOT NULL,
   `price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `product`
+--
+
+INSERT INTO `product` (`product_id`, `product_name`, `price`) VALUES
+(1, 'juguete', 120),
+(2, 'rascador', 50);
 
 -- --------------------------------------------------------
 
@@ -142,7 +175,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `person_id`, `user_name`, `password`, `role`) VALUES
-(1, 1, 'admin', 'admin', 'admin');
+(1, 1, 'admin', 'admin', 'admin'),
+(2, 4, 'etrejos', 'etrejos', 'seller'),
+(7, 19, 'lusito', 'lusito', 'veterinarian');
 
 --
 -- Índices para tablas volcadas
@@ -161,9 +196,9 @@ ALTER TABLE `history_clinical`
   ADD PRIMARY KEY (`id_history`);
 
 --
--- Indices de la tabla `order`
+-- Indices de la tabla `orders`
 --
-ALTER TABLE `order`
+ALTER TABLE `orders`
   ADD PRIMARY KEY (`id_order`);
 
 --
@@ -214,40 +249,40 @@ ALTER TABLE `history_clinical`
   MODIFY `id_history` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `order`
+-- AUTO_INCREMENT de la tabla `orders`
 --
-ALTER TABLE `order`
-  MODIFY `id_order` bigint(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `orders`
+  MODIFY `id_order` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `person`
 --
 ALTER TABLE `person`
-  MODIFY `person_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `person_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `id_pet` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pet` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `pet_owner`
 --
 ALTER TABLE `pet_owner`
-  MODIFY `id_owner` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_owner` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas

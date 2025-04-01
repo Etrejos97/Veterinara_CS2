@@ -78,6 +78,16 @@ public class VeterinarianService {
         clinicalPort.saveHistory(history);
     }
 
+    public HistoryClinic createClinicalHistory(HistoryClinic history) throws Exception {
+        // Verificar si la mascota asociada existe
+        if (!petPort.existPetByIdPet(history.getIdPet())) {
+            throw new Exception("No existe una mascota con el ID especificado.");
+        }
+    
+        // Crear la historia clínica
+        return clinicalPort.createHistory(history);
+    }
+
     // Método para consultar la historia clínica de una mascota
     public List<HistoryClinic> getClinicalHistory(long idPet) {
         PetEntity petEntity = new PetEntity();

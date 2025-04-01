@@ -40,13 +40,14 @@ public class VeterinarianInput implements InputPort{
     private final String MENU = "Ingrese la opción:"
         + " \n 1. Registrar una nueva orden"
         + " \n 2. Cancelar una orden"
-        + " \n 3. Consultar historia clínica"
-        + " \n 4. Consultar todas las órdenes"
-        + " \n 5. Registrar Dueño de mascota"
-        + " \n 6. Actualizar dueño de mascota"
-        + " \n 7. Listar dueños"
-        + " \n 8. Registrar una nueva mascota"
-        + " \n 9. Salir";
+        + " \n 3. Crear historia clínica"
+        + " \n 4. Consultar historia clínica"
+        + " \n 5. Consultar todas las órdenes"
+        + " \n 6. Registrar Dueño de mascota"
+        + " \n 7. Actualizar dueño de mascota"
+        + " \n 8. Listar dueños"
+        + " \n 9. Registrar una nueva mascota"
+        + " \n 10. Salir";
 
         public void menu() throws Exception {
             System.out.println(MENU);
@@ -70,7 +71,7 @@ public class VeterinarianInput implements InputPort{
                 }
                 case "3": {
                     try {
-                        getClinicalHistory();
+                        createClinicalHistory();;
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                     }
@@ -78,7 +79,7 @@ public class VeterinarianInput implements InputPort{
                 }
                 case "4": {
                     try {
-                        getAllOrders();
+                        getClinicalHistory();
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                     }
@@ -86,15 +87,15 @@ public class VeterinarianInput implements InputPort{
                 }
                 case "5": {
                     try {
-                        registerOwner();
+                        getAllOrders();
                     } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("Error: " + e.getMessage());
                     }
                     break;
                 }
                 case "6": {
                     try {
-                        deleteOwner();
+                        registerOwner();
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -102,7 +103,7 @@ public class VeterinarianInput implements InputPort{
                 }
                 case "7": {
                     try {
-                        listOwners();
+                        deleteOwner();
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -110,13 +111,21 @@ public class VeterinarianInput implements InputPort{
                 }
                 case "8": {
                     try {
-                        registerPet();
+                        listOwners();
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
                 }
                 case "9": {
+                    try {
+                        registerPet();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                }
+                case "10": {
                     System.out.println("Hasta una proxima ocación");
                     loginInput.menu();
                     break;
@@ -173,6 +182,27 @@ public class VeterinarianInput implements InputPort{
         
             veterinarianService.cancelOrder(idOrder, idPet,reason);
             System.out.println("Orden cancelada exitosamente.");
+        }
+
+        private void createClinicalHistory() {
+            try {
+                System.out.println("Ingrese el ID de la mascota:");
+                long idPet = Long.parseLong(Utils.getReader().nextLine());
+        
+                System.out.println("Ingrese los detalles de la historia clínica:");
+                String details = Utils.getReader().nextLine();
+        
+                // Crear el objeto HistoryClinic
+                HistoryClinic history = new HistoryClinic();
+                history.setIdPet(idPet);
+                history.setDetails(details);
+        
+                // Llamar al servicio para crear la historia clínica
+                veterinarianService.createClinicalHistory(history);
+                System.out.println("Historia clínica creada exitosamente.");
+            } catch (Exception e) {
+                System.out.println("Error al crear la historia clínica: " + e.getMessage());
+            }
         }
 
         private void getClinicalHistory() {
