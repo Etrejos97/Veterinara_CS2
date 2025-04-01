@@ -14,7 +14,7 @@ import lombok.Setter;
 
 import com.cs2.veterinaria.app.domains.model.Order;
 import com.cs2.veterinaria.app.domains.model.Person;
-
+import com.cs2.veterinaria.app.domains.model.Pet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -45,7 +45,8 @@ public class VeterinarianInput implements InputPort{
         + " \n 5. Registrar Dueño de mascota"
         + " \n 6. Actualizar dueño de mascota"
         + " \n 7. Listar dueños"
-        + " \n 8. Salir";
+        + " \n 8. Registrar una nueva mascota"
+        + " \n 9. Salir";
 
         public void menu() throws Exception {
             System.out.println(MENU);
@@ -108,6 +109,14 @@ public class VeterinarianInput implements InputPort{
                     break;
                 }
                 case "8": {
+                    try {
+                        registerPet();
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                }
+                case "9": {
                     System.out.println("Hasta una proxima ocación");
                     loginInput.menu();
                     break;
@@ -121,14 +130,37 @@ public class VeterinarianInput implements InputPort{
         }
 
         private void registerOrder() throws Exception {
-            System.out.println("Ingrese el ID de la orden:");
-            int idOrder = Integer.parseInt(Utils.getReader().nextLine());
+            try {
+                // Solicitar los datos necesarios para la orden
+                System.out.println("Ingrese el nombre del medicamento:");
+                String drugName = Utils.getReader().nextLine();
         
-            Order order = new Order();
-            order.setIdOrder(idOrder);
+                System.out.println("Ingrese la fecha de la orden (YYYY-MM-DD):");
+                String dateOrder = Utils.getReader().nextLine();
         
-            veterinarianService.registerOrder(order);
-            System.out.println("Orden registrada exitosamente.");
+                System.out.println("Ingrese el ID de la mascota asociada a la orden:");
+                long idPet = Long.parseLong(Utils.getReader().nextLine());
+        
+                System.out.println("Ingrese el ID del dueño de la mascota:");
+                long idOwner = Long.parseLong(Utils.getReader().nextLine());
+        
+                System.out.println("Ingrese el ID del usuario que registra la orden:");
+                long userId = Long.parseLong(Utils.getReader().nextLine());
+        
+                // Crear el objeto Order
+                Order order = new Order();
+                order.setDrugName(drugName);
+                order.setDateOrder(dateOrder);
+                order.setIdPet(idPet);
+                order.setIdOwner(idOwner);
+                order.setUserId(userId);
+        
+                // Llamar al servicio para registrar la orden
+                veterinarianService.registerOrder(order);
+                System.out.println("Orden registrada exitosamente.");
+            } catch (Exception e) {
+                System.out.println("Error al registrar la orden: " + e.getMessage());
+            }
         }
 
         private void cancelOrder() throws Exception {
@@ -211,6 +243,42 @@ public class VeterinarianInput implements InputPort{
         } catch (Exception e) {
             System.out.println("Error al listar los dueños: " + e.getMessage());
         }
+    }
+
+    private void registerPet() throws Exception {
+        System.out.println("Ingrese el nombre de la mascota:");
+        String name = Utils.getReader().nextLine();
+
+        System.out.println("Ingrese el ID del dueño de la mascota:");
+        Long idOwner = Long.parseLong(Utils.getReader().nextLine());
+
+        System.out.println("Ingrese la edad de la mascota:");
+        int age = Integer.parseInt(Utils.getReader().nextLine());
+
+        System.out.println("Ingrese la especie de la mascota:");
+        String species = Utils.getReader().nextLine();
+
+        System.out.println("Ingrese la raza de la mascota:");
+        String race = Utils.getReader().nextLine();
+
+        System.out.println("Ingrese las características de la mascota:");
+        String characteristics = Utils.getReader().nextLine();
+
+        System.out.println("Ingrese el peso de la mascota:");
+        float weight = Float.parseFloat(Utils.getReader().nextLine());
+
+        // Crear el objeto Pet
+        Pet pet = new Pet();
+        pet.setName(name);
+        pet.setIdOwner(idOwner);
+        pet.setAge(age);
+        pet.setSpecies(species);
+        pet.setRace(race);
+        pet.setCharacteristics(characteristics);
+        pet.setWeight(weight);
+
+        // Llamar al servicio para registrar la mascota
+        veterinarianService.registerPet(pet);
     }
 
        

@@ -50,6 +50,11 @@ public class PetOwnerAdapter implements PetOwnerPort {
     }
 
     @Override
+    public boolean existPetOwnerById(long idOwner) {
+        return petOwnerRepository.existsById(idOwner);
+    }
+
+    @Override
     public List<PetOwner> findAllPetOwners() {
         return petOwnerRepository.findAll().stream()
                 .map(this::adapterPetOwner)
@@ -65,6 +70,8 @@ public class PetOwnerAdapter implements PetOwnerPort {
 
         return petOwner;
     }
+
+    
 
     private PersonEntity adapterPerson(Person person) {
         PersonEntity personEntity = new PersonEntity();

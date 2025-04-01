@@ -18,7 +18,7 @@ import com.cs2.veterinaria.app.adapters.users.entity.UserEntity;
 import com.cs2.veterinaria.app.domains.model.Order;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Setter
 @Getter
 @NoArgsConstructor

@@ -7,6 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.cs2.veterinaria.app.adapters.order.entity.OrderEntity;
 import com.cs2.veterinaria.app.adapters.order.repository.OrderRepository;
+import com.cs2.veterinaria.app.adapters.pet.entity.PetEntity;
+import com.cs2.veterinaria.app.adapters.pet.repository.PetRepository;
+import com.cs2.veterinaria.app.adapters.petOwner.entity.PetOwnerEntity;
+import com.cs2.veterinaria.app.adapters.petOwner.repository.PetOwnerRepository;
+import com.cs2.veterinaria.app.adapters.users.entity.UserEntity;
+import com.cs2.veterinaria.app.adapters.users.repository.UserRepository;
 import com.cs2.veterinaria.app.domains.model.Order;
 import com.cs2.veterinaria.app.ports.OrderPort;
 
@@ -22,6 +28,17 @@ public class OrderAdapter implements OrderPort {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private PetRepository petRepository;
+
+    
+    @Autowired
+    private PetOwnerRepository petOwnerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+
     @Override
     public boolean existOrder(long idOrder) {
         return orderRepository.existsByIdOrder(idOrder);
@@ -29,9 +46,19 @@ public class OrderAdapter implements OrderPort {
 
     @Override
     public void saveOrder(Order order) {
-        OrderEntity orderEntity = new OrderEntity();
+        // Recuperar las entidades relacionadas
+        PetEntity petEntity = petRepository.findById(order.getIdPet())
+            .orElseThrow(() -> new RuntimeException("No existe una mascota con el ID especificado."));
+        PetOwnerEntity petOwnerEntity = petOwnerRepository.findById(order.getIdOwner())
+            .orElseThrow(() -> new RuntimeException("No existe un dueño con el ID especificado."));
+        UserEntity userEntity = userRepository.findById(order.getUserId())
+            .orElseThrow(() -> new RuntimeException("No existe un usuario con el ID especificado."));
+
+        // Crear la entidad OrderEntity
+        OrderEntity orderEntity = new OrderEntity(order, petEntity, petOwnerEntity, userEntity);
+
+        // Guardar la orden en la base de datos
         orderRepository.save(orderEntity);
-        order.setIdOrder(orderEntity.getIdOrder());
     }
 
     public Order createOrder(Order order) {

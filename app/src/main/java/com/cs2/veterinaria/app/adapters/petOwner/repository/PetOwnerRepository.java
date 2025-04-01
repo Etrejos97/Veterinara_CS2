@@ -7,4 +7,5 @@ public interface PetOwnerRepository extends JpaRepository<PetOwnerEntity, Long> 
     boolean existsByPersonDocument(long document);
     PetOwnerEntity findByPersonDocument(long document);
     void deleteByPersonDocument(long document);
+    boolean existsByIdOwner(long idOwner);
 }

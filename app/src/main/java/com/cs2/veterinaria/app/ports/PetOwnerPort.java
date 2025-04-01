@@ -11,4 +11,5 @@ public interface PetOwnerPort {
     PetOwner findByDocument(long document);
     void deletePetOwner(long document);
     List<PetOwner> findAllPetOwners();
+    boolean existPetOwnerById(long idOwner);
 }
