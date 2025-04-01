@@ -8,10 +8,10 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class Order {
-    private int idOrder;
+    private long idOrder;
     private long idPet;
     private long idOwner;
-    private long idVerterinarian;
+    private long userId;
     private String dateOrder;
     private String drugName;
 }

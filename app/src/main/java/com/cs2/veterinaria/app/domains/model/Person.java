@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class Person {
-    private long id;
+    private long personId;
+    private long document;
     private String name;
     private int age;
-    private String role;
 }

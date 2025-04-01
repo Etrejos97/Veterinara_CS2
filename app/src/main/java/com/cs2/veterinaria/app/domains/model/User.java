@@ -7,7 +7,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Administrator extends Person{
-    private String user;
+public class User extends Person{
+    private long userId;
+    private String userName;
     private String password;
+    private String role;
 }

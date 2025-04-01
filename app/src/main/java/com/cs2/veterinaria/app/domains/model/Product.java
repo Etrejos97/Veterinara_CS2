@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Veterinarian extends Person{
-    private long idVerterinarian;
-    private String user;
-    private String password;
+public class Product {
+    private long productId;
+    private String productName;
+    private double price;
 }
