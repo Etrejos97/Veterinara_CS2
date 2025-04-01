@@ -87,4 +87,5 @@ public class UserAdapter implements UserPort {
         System.out.println(user.getRole());
         return user;
     }
+
 }

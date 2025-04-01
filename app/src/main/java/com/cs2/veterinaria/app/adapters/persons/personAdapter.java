@@ -53,6 +53,9 @@ public class personAdapter implements PersonPort {
                 .collect(Collectors.toList());
     }
 
+
+    
+
     private Person adapterPerson(PersonEntity personEntity) {
         Person person = new Person();
         person.setPersonId(personEntity.getPersonId());
