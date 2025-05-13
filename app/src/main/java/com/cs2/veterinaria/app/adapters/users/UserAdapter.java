@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,5 +87,15 @@ public class UserAdapter implements UserPort {
         System.out.println(user.getPassword());
         System.out.println(user.getRole());
         return user;
+    }
+
+    @Override
+    public List<User> getAll() {
+        List<UserEntity> usersEntity = userRepository.findAll();
+        List<User> users = new ArrayList<User>();
+        for (UserEntity userEntity : usersEntity) {
+            users.add(adapterUser(userEntity));
+        }
+        return users;
     }
 }

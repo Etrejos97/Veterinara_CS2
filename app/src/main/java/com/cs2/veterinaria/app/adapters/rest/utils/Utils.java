@@ -1,4 +1,4 @@
-package com.cs2.veterinaria.app.adapters.inputs.utils;
+package com.cs2.veterinaria.app.adapters.rest.utils;
 
 import java.util.Scanner;
 

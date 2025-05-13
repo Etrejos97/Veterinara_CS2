@@ -89,6 +89,7 @@ public Pet createPet(Pet pet) {
     // Adaptar la entidad PetEntity de vuelta al modelo Pet
     return adapterPet(petEntity);
 }
+    @SuppressWarnings("unused")
     private PetOwnerEntity adaptPersonToPetOwner(PersonEntity personEntity) {
         PetOwnerEntity petOwnerEntity = new PetOwnerEntity();
         petOwnerEntity.setIdOwner(personEntity.getPersonId()); // Mapear el ID del dueño

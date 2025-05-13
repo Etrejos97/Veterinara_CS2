@@ -1,4 +1,4 @@
-package com.cs2.veterinaria.app.adapters.inputs.utils;
+package com.cs2.veterinaria.app.adapters.rest.utils;
 
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ public class UserValidator extends SimpleValidator{
         return stringValidator(value, "nombre de usuario");
     }
 
-    public static String passwordValidator(String value) throws Exception {
+    public String passwordValidator(String value) throws Exception {
         return stringValidator(value, "contraseña");
     }
 

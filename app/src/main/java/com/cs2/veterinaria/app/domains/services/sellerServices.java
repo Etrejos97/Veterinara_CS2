@@ -1,10 +1,12 @@
 package com.cs2.veterinaria.app.domains.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.cs2.veterinaria.app.domains.model.Order;
 import com.cs2.veterinaria.app.domains.model.Product;
+// import com.cs2.veterinaria.app.adapters.inputs.SellerInput;
 import com.cs2.veterinaria.app.domains.model.Bill;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
 import com.cs2.veterinaria.app.ports.OrderPort;
@@ -24,6 +26,10 @@ import java.util.List;
 @NoArgsConstructor
 @Service
 public class SellerServices {
+
+    // @Autowired
+    // @Lazy
+    // private SellerInput menu;
     @Autowired
     private OrderPort orderPort;
     @Autowired
@@ -39,29 +45,38 @@ public class SellerServices {
     }
 
     // Método para vender un producto genérico
-    public void sellProduct(Product product) throws Exception {
+    public void sellProduct(Order order, Product product) throws Exception {
         productPort.sellProduct(product);
-        generateBill(null, product);
+        generateBill(order, product);
+        // menu.menu();
     }
 
-    // Método para vender un medicamento
     public void sellMedicine(int orderId, Product medicine) throws Exception {
         // Verificar si la orden existe
         if (!orderPort.existOrder(orderId)) {
             throw new Exception("No existe una orden con ese ID");
         }
+    
         // Vender el medicamento
         productPort.sellProduct(medicine);
-
+    
         // Registrar la venta en la historia clínica
         Order order = orderPort.findById(orderId);
         HistoryClinic history = new HistoryClinic();
         history.setIdPet(order.getIdPet());
-        history.setDetails("Medicamento vendido: " + medicine.getProductName());
+    
+        // Validar el nombre del medicamento
+        String productName = (medicine.getProductName() != null && !medicine.getProductName().isEmpty())
+                ? medicine.getProductName()
+                : "Medicamento sin nombre especificado";
+        history.setDetails("Medicamento vendido: " + productName);
+    
+        // Guardar la historia clínica
         clinicalPort.saveHistory(history);
-
+    
         // Generar factura
         generateBill(order, medicine);
+        // menu.menu();
     }
 
     // Método para generar una factura

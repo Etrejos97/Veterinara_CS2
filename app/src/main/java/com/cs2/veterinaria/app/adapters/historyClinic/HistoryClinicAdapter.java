@@ -31,7 +31,22 @@ public class HistoryClinicAdapter implements ClinicalPort {
     @Override
     public void saveHistory(HistoryClinic history) {
         HistoryClinicEntity historyEntity = new HistoryClinicEntity();
+
+        // Asignar valores a los campos de la entidad
+        PetEntity petEntity = new PetEntity();
+        petEntity.setIdPet(history.getIdPet());
+        historyEntity.setPet(petEntity);
+
+        // Validar y asignar el campo details
+        String details = (history.getDetails() != null && !history.getDetails().isEmpty())
+                ? history.getDetails()
+                : "Detalles no especificados";
+        historyEntity.setDetails(details);
+
+        // Guardar la entidad en la base de datos
         historyRepository.save(historyEntity);
+
+        // Actualizar el ID en el modelo
         history.setIdHistory(historyEntity.getIdHistory());
     }
 
@@ -42,7 +57,12 @@ public class HistoryClinicAdapter implements ClinicalPort {
         PetEntity petEntity = new PetEntity();
         petEntity.setIdPet(history.getIdPet());
         historyEntity.setPet(petEntity);
-        historyEntity.setDetails(history.getDetails());
+
+        // Validar el campo details
+        String details = (history.getDetails() != null && !history.getDetails().isEmpty())
+                ? history.getDetails()
+                : "Detalles no especificados";
+        historyEntity.setDetails(details);
 
         // Guardar en la base de datos
         historyRepository.save(historyEntity);
