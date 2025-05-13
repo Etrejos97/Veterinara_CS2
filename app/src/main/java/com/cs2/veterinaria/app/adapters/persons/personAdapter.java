@@ -52,7 +52,6 @@ public class personAdapter implements PersonPort {
                 .map(this::adapterPerson)
                 .collect(Collectors.toList());
     }
-
     private Person adapterPerson(PersonEntity personEntity) {
         Person person = new Person();
         person.setPersonId(personEntity.getPersonId());
