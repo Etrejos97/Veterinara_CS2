@@ -11,4 +11,5 @@ public interface UserPort {
     User findByUserName(String userName);
     List<User> findAllUsers();
     User findUserById(long userId);
+    List<User> getAll();
 }

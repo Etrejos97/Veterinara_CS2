@@ -1,12 +1,14 @@
 package com.cs2.veterinaria.app.domains.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+
+
 import org.springframework.stereotype.Service;
 
-import com.cs2.veterinaria.app.adapters.inputs.LoginInput;
-import com.cs2.veterinaria.app.adapters.inputs.utils.PersonValidator;
-import com.cs2.veterinaria.app.adapters.inputs.utils.UserValidator;
+import com.cs2.veterinaria.app.adapters.rest.utils.UserValidator;
+import com.cs2.veterinaria.app.Exceptions.BusinessException;
+import com.cs2.veterinaria.app.Exceptions.NotFoundException;
+import com.cs2.veterinaria.app.adapters.rest.utils.PersonValidator;
 import com.cs2.veterinaria.app.domains.model.Person;
 import com.cs2.veterinaria.app.domains.model.PetOwner;
 import com.cs2.veterinaria.app.domains.model.User;
@@ -26,7 +28,7 @@ import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor
+// @NoArgsConstructor
 @Service
 public class AdminServices {
     @Autowired
@@ -41,17 +43,15 @@ public class AdminServices {
     private PersonValidator personValidator;
     @Autowired
     private UserValidator userValidator;
-    @Autowired
-    @Lazy
-    private LoginInput loginInput;
+    
 
     
     public void registerUser(User user) throws Exception {
         if (personPort.existPerson(user.getDocument())) {
-            throw new Exception("Ya existe una persona con ese documento");
+            throw new BusinessException("Ya existe una persona con ese documento");
         }
         if (userPort.existUserId(user.getUserId())) {
-            throw new Exception("Ya existe ese usario registrado");
+            throw new BusinessException("Ya existe ese usario registrado");
         }
         personPort.savePerson(user);
         userPort.saveUser(user);
@@ -84,13 +84,13 @@ public class AdminServices {
         personPort.deletePerson(user.getDocument());
     }
 
-    public List<User> listUsers() {
-        return userPort.findAllUsers();
+    public List<User> getUsers() throws Exception {
+        List<User> users = userPort.getAll();
+        if(users.isEmpty()) {
+            throw new NotFoundException("No hay usuarios registrados");
+        }
+        return users;
     }
-
-
-
-    
 
     public List<Person> listOwners() {
         return personPort.findAllPersons();

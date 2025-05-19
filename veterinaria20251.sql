@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-04-2025 a las 05:10:15
+-- Tiempo de generación: 13-05-2025 a las 17:56:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -29,12 +29,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bill` (
   `id_bill` bigint(20) NOT NULL,
-  `id_order` bigint(20) NOT NULL,
-  `id_pet` bigint(20) NOT NULL,
-  `id_owner` bigint(20) NOT NULL,
-  `date_created` text NOT NULL,
+  `id_order` bigint(20) DEFAULT NULL,
+  `id_pet` bigint(20) DEFAULT NULL,
+  `id_owner` bigint(20) DEFAULT NULL,
+  `date_created` varchar(255) DEFAULT NULL,
   `price` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `bill`
+--
+
+INSERT INTO `bill` (`id_bill`, `id_order`, `id_pet`, `id_owner`, `date_created`, `price`) VALUES
+(1, NULL, NULL, NULL, NULL, 0),
+(2, NULL, NULL, NULL, NULL, 0),
+(3, NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -45,8 +54,16 @@ CREATE TABLE `bill` (
 CREATE TABLE `history_clinical` (
   `id_history` bigint(20) NOT NULL,
   `id_pet` bigint(20) NOT NULL,
-  `details` text NOT NULL
+  `details` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `history_clinical`
+--
+
+INSERT INTO `history_clinical` (`id_history`, `id_pet`, `details`) VALUES
+(1, 1, 'Medicamento vendido: ert'),
+(2, 1, 'nueva historia');
 
 -- --------------------------------------------------------
 
@@ -92,7 +109,8 @@ INSERT INTO `person` (`person_id`, `document`, `name`, `age`) VALUES
 (4, 1216724879, 'Edison', 25),
 (17, 789, 'felipe', 0),
 (18, 963, 'juana', 0),
-(19, 741, 'luis', 26);
+(19, 741, 'luis', 26),
+(20, 1000188455, 'nombre', 22);
 
 -- --------------------------------------------------------
 
@@ -154,7 +172,11 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`product_id`, `product_name`, `price`) VALUES
 (1, 'juguete', 120),
-(2, 'rascador', 50);
+(2, 'rascador', 50),
+(3, 'canip', 150),
+(5, 'shampoo', 700),
+(10, 'purgantes', 746),
+(12, 'ert', 852);
 
 -- --------------------------------------------------------
 
@@ -177,7 +199,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `person_id`, `user_name`, `password`, `role`) VALUES
 (1, 1, 'admin', 'admin', 'admin'),
 (2, 4, 'etrejos', 'etrejos', 'seller'),
-(7, 19, 'lusito', 'lusito', 'veterinarian');
+(7, 19, 'lusito', 'lusito', 'veterinarian'),
+(8, 20, 'userName3', 'userName3', 'veterinarian');
 
 --
 -- Índices para tablas volcadas
@@ -240,13 +263,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `id_bill` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_bill` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `history_clinical`
 --
 ALTER TABLE `history_clinical`
-  MODIFY `id_history` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_history` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `orders`
@@ -258,7 +281,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT de la tabla `person`
 --
 ALTER TABLE `person`
-  MODIFY `person_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `person_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `pet`
@@ -276,13 +299,13 @@ ALTER TABLE `pet_owner`
 -- AUTO_INCREMENT de la tabla `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
