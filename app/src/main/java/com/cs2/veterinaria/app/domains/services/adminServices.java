@@ -30,7 +30,7 @@ import java.util.List;
 @Getter
 // @NoArgsConstructor
 @Service
-public class AdminServices {
+public class adminServices {
     @Autowired
     private PersonPort personPort;
     @Autowired

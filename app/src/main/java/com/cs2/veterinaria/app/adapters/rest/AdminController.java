@@ -21,7 +21,7 @@ import com.cs2.veterinaria.app.Exceptions.NotFoundException;
 import com.cs2.veterinaria.app.adapters.rest.request.UserRequest;
 import com.cs2.veterinaria.app.adapters.rest.response.UserResponse;
 import com.cs2.veterinaria.app.domains.model.User;
-import com.cs2.veterinaria.app.domains.services.AdminServices;
+import com.cs2.veterinaria.app.domains.services.adminServices;
 import com.cs2.veterinaria.app.adapters.rest.utils.PersonValidator;
 import com.cs2.veterinaria.app.adapters.rest.utils.UserValidator;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
 
     @Autowired
-	private AdminServices adminservice;
+	private adminServices Adminservice;
     @Autowired
 	private PersonValidator personValidator;
     @Autowired
@@ -65,7 +65,7 @@ public class AdminController {
             user.setUserName(userValidator.userNameValidator(request.getUserName()));
 		    user.setPassword(userValidator.passwordValidator(request.getPassword()));
             user.setRole((request.getRole()));
-            adminservice.registerUser(user);
+            Adminservice.registerUser(user);
             return new ResponseEntity("se ha creado el socio",HttpStatus.OK);
         }catch(BusinessException be) {
 			return new ResponseEntity(be.getMessage(),HttpStatus.CONFLICT);
@@ -79,7 +79,7 @@ public class AdminController {
     @GetMapping("/user")
     public ResponseEntity getUser() {
         try{
-            List<User> users = adminservice.getUsers();
+            List<User> users = Adminservice.getUsers();
             List<UserResponse> userResponse  = new ArrayList<UserResponse>();
             for (User user : users) {
                 userResponse.add(adapter(user));
@@ -108,7 +108,7 @@ public class AdminController {
             user.setPassword(userValidator.passwordValidator(request.getPassword()));
 
             // Llamar al servicio para actualizar el usuario
-            adminservice.updateUser(user);
+            Adminservice.updateUser(user);
 
             return new ResponseEntity<>("Usuario actualizado exitosamente", HttpStatus.OK);
         } catch (NotFoundException nfe) {
@@ -125,7 +125,7 @@ public class AdminController {
     @DeleteMapping("/user/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
         try {
-            adminservice.deleteUser(userId);
+            Adminservice.deleteUser(userId);
             return new ResponseEntity<>("Usuario eliminado exitosamente", HttpStatus.OK);
         } catch (NotFoundException nfe) {
             return new ResponseEntity<>(nfe.getMessage(), HttpStatus.NOT_FOUND);

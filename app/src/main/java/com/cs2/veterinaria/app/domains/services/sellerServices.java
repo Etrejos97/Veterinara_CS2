@@ -25,7 +25,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Service
-public class SellerServices {
+public class sellerServices {
 
     // @Autowired
     // @Lazy
