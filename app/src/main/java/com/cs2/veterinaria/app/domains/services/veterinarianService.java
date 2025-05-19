@@ -120,11 +120,11 @@ public class VeterinarianService {
         petOwnerPort.savePetOwner(person);
     }
 
-    public void deleteOwner(Long document) throws Exception {
-        if (!personPort.existPerson(document)) {
-            throw new Exception("No existe una persona con ese documento");
-        }
-        personPort.deletePerson(document);
+    public List<Person> listOwners() {
+        return petOwnerPort.findAllPetOwners()
+            .stream()
+            .map(owner -> (Person) owner)
+            .toList();
     }
 
     public void registerPet(Pet pet) throws Exception {

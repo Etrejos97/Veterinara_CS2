@@ -24,7 +24,6 @@ import com.cs2.veterinaria.app.domains.model.User;
 import com.cs2.veterinaria.app.domains.services.AdminServices;
 import com.cs2.veterinaria.app.adapters.rest.utils.PersonValidator;
 import com.cs2.veterinaria.app.adapters.rest.utils.UserValidator;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

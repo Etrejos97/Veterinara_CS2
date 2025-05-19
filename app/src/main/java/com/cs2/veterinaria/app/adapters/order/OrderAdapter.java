@@ -80,14 +80,15 @@ public class OrderAdapter implements OrderPort {
 
     @Override
     public List<Order> getAllOrders() {
-
-        throw new UnsupportedOperationException();
+        return findAllOrders();
     }
 
     @Override
     public List<Order> findAllOrders() {
-
-        throw new UnsupportedOperationException();
+        List<OrderEntity> entities = orderRepository.findAll();
+        return entities.stream()
+            .map(this::convertToDomain)
+            .toList();
     }
 
     @Override
