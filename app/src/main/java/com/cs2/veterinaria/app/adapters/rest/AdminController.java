@@ -70,7 +70,9 @@ public class AdminController {
 			return new ResponseEntity(be.getMessage(),HttpStatus.CONFLICT);
 		}catch(InputsException ie) {
 			return new ResponseEntity(ie.getMessage(),HttpStatus.BAD_REQUEST);
-		}catch(Exception e) {
+		}catch (NotFoundException NFe) {
+            return new ResponseEntity<>(NFe.getMessage(), HttpStatus.NOT_FOUND);
+        }catch(Exception e) {
 			return new ResponseEntity(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }

@@ -9,6 +9,7 @@ import com.cs2.veterinaria.app.adapters.rest.response.OrderResponse;
 import com.cs2.veterinaria.app.adapters.rest.response.OwnerResponse;
 import com.cs2.veterinaria.app.Exceptions.BusinessException;
 import com.cs2.veterinaria.app.Exceptions.InputsException;
+import com.cs2.veterinaria.app.Exceptions.NotFoundException;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
 import com.cs2.veterinaria.app.domains.model.Order;
 import com.cs2.veterinaria.app.domains.model.Person;
@@ -65,6 +66,8 @@ public class VeterinarianController {
             return new ResponseEntity<>(ie.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (BusinessException be) {
             return new ResponseEntity<>(be.getMessage(), HttpStatus.CONFLICT);
+        } catch (NotFoundException NFe) {
+            return new ResponseEntity<>(NFe.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -93,6 +96,8 @@ public class VeterinarianController {
             return new ResponseEntity<>(ie.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (BusinessException be) {
             return new ResponseEntity<>(be.getMessage(), HttpStatus.CONFLICT);
+        }catch (NotFoundException NFe) {
+            return new ResponseEntity<>(NFe.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -156,6 +161,8 @@ public class VeterinarianController {
             return new ResponseEntity<>(ie.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (BusinessException be) {
             return new ResponseEntity<>(be.getMessage(), HttpStatus.CONFLICT);
+        } catch (NotFoundException NFe) {
+            return new ResponseEntity<>(NFe.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -175,10 +182,11 @@ public class VeterinarianController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
     @PostMapping("/registerPet")
-    public ResponseEntity<String> registerPet(@RequestBody PetRequest request) {
+    public ResponseEntity<String> registerPet(@RequestBody PetRequest request) throws Exception {
         try {
             if (request.getName() == null || request.getName().isEmpty()) {
                 throw new InputsException("El nombre de la mascota es obligatorio");
@@ -217,7 +225,9 @@ public class VeterinarianController {
             return new ResponseEntity<>(ie.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (BusinessException be) {
             return new ResponseEntity<>(be.getMessage(), HttpStatus.CONFLICT);
-        } catch (Exception e) {
+        } catch (NotFoundException NFe) {
+            return new ResponseEntity<>(NFe.getMessage(), HttpStatus.NOT_FOUND);
+        }catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
