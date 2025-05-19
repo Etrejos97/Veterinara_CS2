@@ -3,6 +3,8 @@ package com.cs2.veterinaria.app.domains.services;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cs2.veterinaria.app.Exceptions.BusinessException;
+import com.cs2.veterinaria.app.Exceptions.NotFoundException;
 import com.cs2.veterinaria.app.adapters.pet.entity.PetEntity;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
 import com.cs2.veterinaria.app.domains.model.Order;
@@ -47,17 +49,17 @@ public class VeterinarianService {
     public void registerOrder(Order order) throws Exception {
         // Verificar si la mascota asociada existe
         if (!petPort.existPetByIdPet(order.getIdPet())) {
-            throw new Exception("No existe una mascota con el ID especificado.");
+            throw new BusinessException("No existe una mascota con el ID especificado.");
         }
     
         // Verificar si el dueño asociado existe
         if (!petOwnerPort.existPetOwnerById(order.getIdOwner())) {
-            throw new Exception("No existe un dueño con el ID especificado.");
+            throw new BusinessException("No existe un dueño con el ID especificado.");
         }
     
         // Verificar si el usuario asociado existe
         if (!userPort.existUserId(order.getUserId())) {
-            throw new Exception("No existe un usuario con el ID especificado.");
+            throw new BusinessException("No existe un usuario con el ID especificado.");
         }
     
         // Guardar la orden en la base de datos
@@ -67,7 +69,7 @@ public class VeterinarianService {
     // Método para cancelar una orden de medicamento
     public void cancelOrder(int idOrder, long idPet, String reason) throws Exception {
         if (!orderPort.existOrder(idOrder)) {
-            throw new Exception("No existe una orden con el ID especificado");
+            throw new BusinessException("No existe una orden con el ID especificado");
         }
         orderPort.cancelOrder(idOrder);
 
@@ -81,7 +83,7 @@ public class VeterinarianService {
     public HistoryClinic createClinicalHistory(HistoryClinic history) throws Exception {
         // Verificar si la mascota asociada existe
         if (!petPort.existPetByIdPet(history.getIdPet())) {
-            throw new Exception("No existe una mascota con el ID especificado.");
+            throw new BusinessException("No existe una mascota con el ID especificado.");
         }
     
         // Crear la historia clínica
@@ -105,7 +107,7 @@ public class VeterinarianService {
     public void registerOwner(Person person) throws Exception {
         // Verificar si la persona ya existe
         if (personPort.existPerson(person.getDocument())) {
-            throw new Exception("Ya existe una persona con ese documento");
+            throw new BusinessException("Ya existe una persona con ese documento");
         }
     
         // Guardar la persona en la base de datos
@@ -113,7 +115,7 @@ public class VeterinarianService {
     
         // Verificar que el person_id se haya asignado correctamente
         if (person.getPersonId() == 0) {
-            throw new Exception("Error al asignar el ID de la persona.");
+            throw new NotFoundException("Error al asignar el ID de la persona.");
         }
     
         // Guardar el dueño de la mascota
@@ -130,7 +132,7 @@ public class VeterinarianService {
     public void registerPet(Pet pet) throws Exception {
         // Verificar si el dueño de la mascota existe por idOwner
         if (!petOwnerPort.existPetOwnerById(pet.getIdOwner())) {
-            throw new Exception("No existe un dueño con el ID especificado.");
+            throw new NotFoundException("No existe un dueño con el ID especificado.");
         }
     
         // Crear la mascota en la base de datos
