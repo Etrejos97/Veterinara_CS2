@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.cs2.veterinaria.app.Exceptions.BusinessException;
 import com.cs2.veterinaria.app.Exceptions.InputsException;
+import com.cs2.veterinaria.app.Exceptions.NotFoundException;
 import com.cs2.veterinaria.app.adapters.rest.request.SellMedicineRequest;
 import com.cs2.veterinaria.app.domains.model.Product;
 import com.cs2.veterinaria.app.domains.services.sellerServices;
@@ -27,6 +28,8 @@ public class SellerController {
             return new ResponseEntity<>(be.getMessage(), HttpStatus.CONFLICT);
         } catch (InputsException ie) {
             return new ResponseEntity<>(ie.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (NotFoundException NFe) {
+            return new ResponseEntity<>(NFe.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -41,6 +44,9 @@ public class SellerController {
             return new ResponseEntity<>(be.getMessage(), HttpStatus.CONFLICT);
         } catch (InputsException ie) {
             return new ResponseEntity<>(ie.getMessage(), HttpStatus.BAD_REQUEST);
+            
+        } catch (NotFoundException NFe) {
+            return new ResponseEntity<>(NFe.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

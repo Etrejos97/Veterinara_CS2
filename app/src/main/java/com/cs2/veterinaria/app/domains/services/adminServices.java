@@ -61,7 +61,7 @@ public class adminServices {
         // Buscar el usuario existente por su ID
         User existingUser = userPort.findUserById(user.getUserId());
         if (existingUser == null) {
-            throw new Exception("No existe un usuario con el ID especificado.");
+            throw new NotFoundException("No existe un usuario con el ID especificado.");
         }
     
         // Actualizar los campos permitidos
@@ -77,7 +77,7 @@ public class adminServices {
     public void deleteUser(Long userId) throws Exception {
         User user = userPort.findUserById(userId);
         if (user == null) {
-            throw new Exception("No existe un usuario con ese ID");
+            throw new BusinessException("No existe un usuario con ese ID");
         }
         
         userPort.deleteUser(userId);
@@ -99,7 +99,7 @@ public class adminServices {
     // Actualizar informacion del dueño de la mascota.
     public void updateOwner(PetOwner petOwner) throws Exception {
         if (!petOwnerPort.existPetOwner(petOwner.getDocument())) {
-            throw new Exception("No existe una persona con ese documento");
+            throw new NotFoundException("No existe una persona con ese documento");
         }
         petOwnerPort.savePetOwner(petOwner);
     }

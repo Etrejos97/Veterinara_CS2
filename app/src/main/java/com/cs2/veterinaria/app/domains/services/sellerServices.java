@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.cs2.veterinaria.app.domains.model.Order;
 import com.cs2.veterinaria.app.domains.model.Product;
+import com.cs2.veterinaria.app.Exceptions.BusinessException;
+import com.cs2.veterinaria.app.Exceptions.InputsException;
+import com.cs2.veterinaria.app.Exceptions.NotFoundException;
 // import com.cs2.veterinaria.app.adapters.inputs.SellerInput;
 import com.cs2.veterinaria.app.domains.model.Bill;
 import com.cs2.veterinaria.app.domains.model.HistoryClinic;
@@ -46,15 +49,24 @@ public class sellerServices {
 
     // Método para vender un producto genérico
     public void sellProduct(Order order, Product product) throws Exception {
+    try {
+        // Validar datos de entrada
+        if (order == null || product == null) {
+            throw new InputsException("La orden y el producto son obligatorios");
+        }
+        
         productPort.sellProduct(product);
         generateBill(order, product);
         // menu.menu();
+    } catch (Exception e) {
+        throw new Exception("Error inesperado al vender el producto: " + e.getMessage());
     }
+}
 
     public void sellMedicine(int orderId, Product medicine) throws Exception {
         // Verificar si la orden existe
         if (!orderPort.existOrder(orderId)) {
-            throw new Exception("No existe una orden con ese ID");
+            throw new NotFoundException("No existe una orden con ese ID");
         }
     
         // Vender el medicamento
